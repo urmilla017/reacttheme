@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React, { useState, useEffect } from "react";
+import {ThemeProvider} from "styled-components";
+import  {useDarkMode} from "./components/useDarkMode"
+import { GlobalStyles } from "./components/GlobalStyles";
+import { lightTheme, darkTheme } from "./components/Themes"
+import Toggle from "./components/Toggler"
+import "./App.css";
+// import dummyData from "./data";
+import CardList from "./components/CardList";
+const App = () => {
+  const [videos, setVideos] = useState([]);
+  const [theme, themeToggler, mountedComponent] = useDarkMode();
+  const themeMode = theme === 'light' ? lightTheme : darkTheme;
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setVideos(dummyData);
+  //   }, 1000);
+  //   return () => clearTimeout(timer);
+  // }, []);
+  if(!mountedComponent) return <div/>
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={themeMode}>
+      <>
+      <GlobalStyles/>
+        <div className="App">
+          <Toggle theme={theme} toggleTheme={themeToggler} />
+          {
+            // videos.map((list, index) => {
+            //   return (
+            //     <section key={index}>
+            //       <h2 className="section-title">{list.section}</h2>
+            //       <CardList list={list} />
+            //       <hr />
+            //     </section>
+            //   );
+            // })
+            }
+        </div>
+      </>
+    </ThemeProvider>
+    
   );
-}
-
+};
 export default App;
